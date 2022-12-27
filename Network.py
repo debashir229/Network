@@ -3,16 +3,16 @@ import scipy.special # библиотека для работы с функци�
 import matplotlib.pyplot  # библиотека для визуализация данных
 class Network():
     # функция инициализации сети
-    def  __init__(self, inputN, hiddenN, outputN, learnNet):
+    def  __init__(self, inputN, hiddenN, outputN, learning):
         # количество узлов во входном слое, скрытом слое и выходном слое
         self.iN = inputN
         self.hN = hiddenN
         self.oN = outputN
         # коэффицент обучения
-        self.lr = learnNet
+        self.lr = learning
         # матрица весовых коэффицентов 
-        self.Wih = numpy.random.normal(0.0, pow(self.hN, -0.5),(self.hN, self.iN))
-        self.Who = numpy.random.normal(0.0, pow(self.oN, -0.5),(self.oN, self.hN))
+        self.Wih = numpy.random.normal(0.0, pow(self.iN, -0.5), (self.hN, self.iN))
+        self.Who = numpy.random.normal(0.0, pow(self.hN, -0.5), (self.oN, self.hN))
         # функция сигмоиды
         self.activation_F = lambda x: scipy.special.expit(x) 
 
@@ -24,7 +24,7 @@ class Network():
         # создание матрицы входных сигналов
         inputs = numpy.array(inputs_list, ndmin=2).T 
         # расчет сигнала на скрытом слое
-        hidden_inputs = numpy.dot(self.Wih, inputs_list) # сигналы входящие на скрытый слой
+        hidden_inputs = numpy.dot(self.Wih, inputs) # сигналы входящие на скрытый слой
         hidden_outputs = self.activation_F(hidden_inputs) # сигналы исходящие из скрытого слоя
         # расчет сигнала на выходном слое
         final_inputs = numpy.dot(self.Who, hidden_outputs) # сигналы входящие на выходной слой
@@ -56,14 +56,14 @@ class Network():
 
 # сигналы
 inputN = 784 # размер изображения представляет собойквадрат 28х28 пикселей
-hiddenN = 100 # количество тренировчоных примеров, выбрав значения меньше входных узлов, нейросеть старается обобщить информацию
+hiddenN = 200 # количество тренировчоных примеров, выбрав значения меньше входных узлов, нейросеть старается обобщить информацию
 outputN= 10 # количество цифр в десятичной системе исчисления
 # коэффицент обучения
-learnNet = 0.3
+learning = 0.1
 # образец сети
-First = Network(inputN ,hiddenN,outputN, learnNet)
+First = Network(inputN,hiddenN,outputN, learning)
 # чтение файла содержащего ТРЕНИРОВОЧНЫЕ данные
-data_file = open('E:\Дрюков Никита\Урок\mnist\mnist_train_100.csv', 'r') 
+data_file = open('C:\mnist_datase\mnist_train_100.csv', 'r') 
 data_list = data_file.readlines()
 # перебор всех данных
 for i in  data_list:
@@ -71,11 +71,15 @@ for i in  data_list:
     inputs = (numpy.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01 # преобразование цифр из строк в числа, передача во входной сигнал
     targets = numpy.zeros(outputN) + 0.01  # создание одномерного массива длинной outputN и с минимальным значением 0.01
     targets[int(all_values[0])] = 0.99 # 'маркер' - первое значение тренировочных данных переходит в тип данных числа и принимает наибольшее значение в массиве
-    print(targets)
     First.Practice(inputs, targets) 
     pass
 data_file.close()
 # чтение файла содержащего ТЕСТОВЫЕ данные
+test_data_file = open('C:\mnist_datase\mnist_test_10.csv', 'r') 
+test_data_list = test_data_file.readlines() 
+test_data_file.close()
+all_values = test_data_list[0].split(',')
+
 
 
 
