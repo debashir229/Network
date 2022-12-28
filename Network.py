@@ -81,15 +81,42 @@ test_data_file.close()
 all_values = test_data_list[0].split(',')
 
 
-# проверка работы
 
 
-image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
-matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
-matplotlib.pyplot.show() # вывод изображения
-print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод массива с сигналами выходного слоя
-results = list(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01))
-print('Распознанная цифра: ', results.index(max(results))) # вывод результата
+# один тест
+
+
+# image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
+# matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
+# matplotlib.pyplot.show() # вывод изображения
+# print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод массива с сигналами выходного слоя
+# answer = list(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01))
+# print('Распознанная цифра: ', answer.index(max(answer)) # вывод результата
+
+
+# тест всех тестовых записей
+results = []
+for record in test_data_list:
+    # перебрать все записи в тестовом наборе данных 
+    all_values = record.split(',')
+    correct_label = int(all_values[0]) 
+    image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
+    matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
+    matplotlib.pyplot.show()
+    matplotlib.pyplot.time.sleep(5000)
+    # print(correct_label,  "истинный маркер")
+    inputs =  (numpy.asfarray(all_values[1:])  / 255.0  *  0.99)  + 0.01
+    outputs = First.Request(inputs)
+    label = numpy.argmax(outputs)
+    # print(label,  "ответ сети") 
+    if  (label == correct_label) :
+        results.append(1)
+    else:
+        results.append(0) 
+        pass
+    pass
+results_array = numpy.asarray(results)
+print("Эффективность = ",  results_array.sum() * 100 / results_array.size,'%')
 
 
 
