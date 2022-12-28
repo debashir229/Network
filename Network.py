@@ -75,7 +75,7 @@ for i in  data_list:
     pass
 data_file.close()
 # чтение файла содержащего ТЕСТОВЫЕ данные
-test_data_file = open('C:\mnist_datase\mnist_test_10.csv', 'r') 
+test_data_file = open('C:\mnist_datase\mnist_train_100.csv', 'r') 
 test_data_list = test_data_file.readlines() 
 test_data_file.close()
 all_values = test_data_list[0].split(',')
@@ -85,9 +85,11 @@ all_values = test_data_list[0].split(',')
 
 
 image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
-matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None')
-matplotlib.pyplot.show()
-print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод результата
+matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
+matplotlib.pyplot.show() # вывод изображения
+print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод массива с сигналами выходного слоя
+results = list(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01))
+print('Распознанная цифра: ', results.index(max(results))) # вывод результата
 
 
 
