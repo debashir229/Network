@@ -81,9 +81,7 @@ test_data_file.close()
 all_values = test_data_list[0].split(',')
 
 
-
-
-# один тест
+# один тест( если надо )
 
 
 # image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
@@ -117,7 +115,6 @@ for record in test_data_list:
     pass
 results_array = numpy.asarray(results)
 print("Эффективность = ",  results_array.sum() * 100 / results_array.size,'%')
-
 
 
 
