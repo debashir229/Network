@@ -97,18 +97,18 @@ all_values = test_data_list[0].split(',')
 # тест всех тестовых записей
 results = []
 for record in test_data_list:
-    # перебрать все записи в тестовом наборе данных 
+    # преобразование в массив данных из файла
     all_values = record.split(',')
     correct_label = int(all_values[0]) 
-    image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
-    matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
-    matplotlib.pyplot.show()
-    matplotlib.pyplot.time.sleep(5000)
-    # print(correct_label,  "истинный маркер")
     inputs =  (numpy.asfarray(all_values[1:])  / 255.0  *  0.99)  + 0.01
+    # опрос
     outputs = First.Request(inputs)
     label = numpy.argmax(outputs)
-    # print(label,  "ответ сети") 
+    # визуалиция
+    image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
+    print("Истинный маркер:", correct_label,  '\n', "Ответ сети", label) 
+    matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
+    matplotlib.pyplot.show()
     if  (label == correct_label) :
         results.append(1)
     else:
