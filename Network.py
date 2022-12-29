@@ -59,19 +59,22 @@ inputN = 784 # размер изображения представляет со
 hiddenN = 200 # количество тренировчоных примеров, выбрав значения меньше входных узлов, нейросеть старается обобщить информацию
 outputN= 10 # количество цифр в десятичной системе исчисления
 # коэффицент обучения
-learning = 0.2
+learning = 0.1
 # образец сети
 First = Network(inputN,hiddenN,outputN, learning)
 # чтение файла содержащего ТРЕНИРОВОЧНЫЕ данные
 data_file = open('C:\mnist_datase\mnist_test.csv', 'r') 
 data_list = data_file.readlines()
 # перебор всех данных
-for i in  data_list:
-    all_values = i.split(',') # преобразования в массив
-    inputs = (numpy.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01 # преобразование цифр из строк в числа, передача во входной сигнал
-    targets = numpy.zeros(outputN) + 0.01  # создание одномерного массива длинной outputN и с минимальным значением 0.01
-    targets[int(all_values[0])] = 0.99 # 'маркер' - первое значение тренировочных данных переходит в тип данных числа и принимает наибольшее значение в массиве
-    First.Practice(inputs, targets) 
+stage = 5 # количество поколений - перебора тренировочных данных
+for ms_dos in range(stage):
+    for i in  data_list:
+        all_values = i.split(',') # преобразования в массив
+        inputs = (numpy.asfarray(all_values[1:]) / 255.0 * 0.99) + 0.01 # преобразование цифр из строк в числа, передача во входной сигнал
+        targets = numpy.zeros(outputN) + 0.01  # создание одномерного массива длинной outputN и с минимальным значением 0.01
+        targets[int(all_values[0])] = 0.99 # 'маркер' - первое значение тренировочных данных переходит в тип данных числа и принимает наибольшее значение в массиве
+        First.Practice(inputs, targets)
+        pass 
     pass
 data_file.close()
 # чтение файла содержащего ТЕСТОВЫЕ данные
@@ -113,6 +116,7 @@ for record in test_data_list:
     pass
 results_array = numpy.asarray(results)
 print("Эффективность = ",  results_array.sum() * 100 / results_array.size,'%')
+
 
 
 
