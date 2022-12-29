@@ -59,11 +59,11 @@ inputN = 784 # размер изображения представляет со
 hiddenN = 200 # количество тренировчоных примеров, выбрав значения меньше входных узлов, нейросеть старается обобщить информацию
 outputN= 10 # количество цифр в десятичной системе исчисления
 # коэффицент обучения
-learning = 0.3
+learning = 0.2
 # образец сети
 First = Network(inputN,hiddenN,outputN, learning)
 # чтение файла содержащего ТРЕНИРОВОЧНЫЕ данные
-data_file = open('C:\mnist_datase\mnist_train_100.csv', 'r') 
+data_file = open('C:\mnist_datase\mnist_test.csv', 'r') 
 data_list = data_file.readlines()
 # перебор всех данных
 for i in  data_list:
@@ -78,21 +78,19 @@ data_file.close()
 test_data_file = open('C:\mnist_datase\mnist_train_100.csv', 'r') 
 test_data_list = test_data_file.readlines() 
 test_data_file.close()
-all_values = test_data_list[0].split(',')
-
-
 # один тест( если надо )
-
-
-# image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
-# matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
-# matplotlib.pyplot.show() # вывод изображения
-# print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод массива с сигналами выходного слоя
-# answer = list(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01))
-# print('Распознанная цифра: ', answer.index(max(answer)) # вывод результата
+#all_values = test_data_list[0].split(',')
+#image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
+#matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
+#matplotlib.pyplot.show() # вывод изображения
+#print(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01)) # вывод массива с сигналами выходного слоя
+#answer = list(First.Request((numpy.asfarray(all_values[1:])/255*0.99)+0.01))
+#print('Распознанная цифра: ', answer.index(max(answer))) # вывод результата
 
 
 # тест всех тестовых записей
+
+
 results = []
 for record in test_data_list:
     # преобразование в массив данных из файла
@@ -104,9 +102,9 @@ for record in test_data_list:
     label = numpy.argmax(outputs)
     # визуалиция
     image_array = numpy.asfarray(all_values[1:]).reshape((28,28))  # создание визуализирование цифры
-    print("Истинный маркер:", correct_label,  '\n', "Ответ сети", label) 
+    #print("Истинный маркер:", correct_label,'\n',"Ответ сети: ", label) 
     matplotlib.pyplot.imshow(image_array, cmap='Greys', interpolation='None') # наложение палитры серого на изображение
-    matplotlib.pyplot.show()
+    #matplotlib.pyplot.show()
     if  (label == correct_label) :
         results.append(1)
     else:
